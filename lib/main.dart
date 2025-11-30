@@ -1,4 +1,5 @@
 import 'package:admin_panel/routing/router.dart';
+import 'package:admin_panel/utils/themeData.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,9 +14,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Admin-Panel-Tech-AI',
-      theme: ThemeData(
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-      ),
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
       routerConfig: route(),
     );
