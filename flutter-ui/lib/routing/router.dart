@@ -22,6 +22,7 @@ GoRouter route()=>GoRouter(
           builder:(builder,context){
             return Loginpage();
           }),
+      ShellRoute(routes: routes)
     ],
 
 );

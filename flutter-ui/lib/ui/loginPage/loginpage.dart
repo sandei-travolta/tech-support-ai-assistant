@@ -1,5 +1,6 @@
 import 'package:admin_panel/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class Loginpage extends StatelessWidget {
   Loginpage({super.key});
@@ -82,6 +83,7 @@ class Loginpage extends StatelessWidget {
                   width: MediaQuery.widthOf(context)*0.8,
                   child: ElevatedButton(
                       onPressed: (){
+                        context.go('/');
                   }, child: Text("Login",
                     style: TextStyle(
                       color: Colors.white,
