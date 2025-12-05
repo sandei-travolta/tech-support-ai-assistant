@@ -21,6 +21,9 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
     implementation "com.twilio.sdk:twilio:11.2.0"
+    implementation("com.squareup.okhttp3:okhttp:5.3.2")
+    implementation("org.projectlombok:lombok:1.18.42")
+    implementation("tools.jackson.core:jackson-core:3.0.3")
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
