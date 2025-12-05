@@ -1,6 +1,7 @@
 package sandei.dev.ai_tech_assistant.webhooks;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,9 +18,11 @@ public class TwiloWebHook {
         this.twiloService = twiloService;
     }
     @PostMapping(value = "/message",consumes = "application/x-www-form-urlencoded" )
-    void twiloEndpoint(
+    public ResponseEntity<String> twiloEndpoint(
             @RequestParam("From") String from,
-            @RequestParam("Body") String body){
-        twiloService.receiveMessage(from,body);
+            @RequestParam("Body") String body) throws Exception {
+        return ResponseEntity.ok()
+                .header("Content-Type", "application/xml")
+                .body(twiloService.receiveMessage(from,body));
     }
 }

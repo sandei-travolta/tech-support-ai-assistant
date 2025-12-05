@@ -1,5 +1,6 @@
 package sandei.dev.ai_tech_assistant.DTOs.inferenceEngine;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResponseDto {
+   @JsonProperty("input")
     private String input;
+    @JsonProperty("tags")
     private List<TagDto> tags;
+    @JsonProperty("generated_text")
     private String generatedText;
 }
