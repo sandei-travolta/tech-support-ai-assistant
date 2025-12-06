@@ -1,4 +1,4 @@
-package sandei.dev.ai_tech_assistant.services.Twilo;
+package sandei.dev.ai_tech_assistant.services.twilo;
 
 import com.twilio.twiml.MessagingResponse;
 import com.twilio.twiml.messaging.Body;
