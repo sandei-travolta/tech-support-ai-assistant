@@ -5,11 +5,8 @@ import com.twilio.twiml.messaging.Body;
 import com.twilio.twiml.messaging.Message;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import sandei.dev.ai_tech_assistant.DTOs.inferenceEngine.MessageDto;
+import sandei.dev.ai_tech_assistant.dTOs.inferenceEngine.MessageDto;
 import sandei.dev.ai_tech_assistant.services.inferenceService.InferenceService;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
 @AllArgsConstructor
 @Service

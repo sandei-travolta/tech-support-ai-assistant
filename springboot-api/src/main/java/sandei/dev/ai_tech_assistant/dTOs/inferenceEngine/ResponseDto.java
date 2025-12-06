@@ -1,4 +1,4 @@
-package sandei.dev.ai_tech_assistant.DTOs.inferenceEngine;
+package sandei.dev.ai_tech_assistant.dTOs.inferenceEngine;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

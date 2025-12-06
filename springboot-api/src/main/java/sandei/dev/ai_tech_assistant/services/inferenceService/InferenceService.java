@@ -3,8 +3,8 @@ package sandei.dev.ai_tech_assistant.services.inferenceService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
-import sandei.dev.ai_tech_assistant.DTOs.inferenceEngine.MessageDto;
-import sandei.dev.ai_tech_assistant.DTOs.inferenceEngine.ResponseDto;
+import sandei.dev.ai_tech_assistant.dTOs.inferenceEngine.MessageDto;
+import sandei.dev.ai_tech_assistant.dTOs.inferenceEngine.ResponseDto;
 import sandei.dev.ai_tech_assistant.config.Constants;
 @Service
 public class InferenceService {
