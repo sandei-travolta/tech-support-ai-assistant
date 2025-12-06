@@ -42,6 +42,4 @@ public class TwiloService {
         messagingService.saveMessage(messagingEntity);
     }
 
-
-
 }
