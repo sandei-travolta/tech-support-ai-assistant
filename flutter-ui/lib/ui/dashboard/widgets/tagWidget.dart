@@ -11,6 +11,22 @@ class TagWidgets extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: .symmetric(vertical:5.0,horizontal:10.0),
+      decoration: BoxDecoration(
+          border: .all(
+            width:0.2,
+            color:Colors.grey
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Color.fromRGBO(33, 35, 38, 0.1),
+              blurRadius: 10,
+              spreadRadius: -10,
+              offset: Offset(0, 10),
+            )
+          ],
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: Row(
         spacing: 2.5,
         children: [
