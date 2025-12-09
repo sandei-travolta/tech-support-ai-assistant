@@ -2,6 +2,9 @@ import 'package:admin_panel/routing/routes.dart';
 import 'package:admin_panel/ui/homePage/widgets/sideBarItem.dart';
 import 'package:flutter/material.dart';
 
+import 'widgets/settingsBtn.dart';
+import 'widgets/signOutBtn.dart';
+
 class Homepage extends StatelessWidget {
   const Homepage({super.key, required this.child});
   final Widget child;
@@ -25,8 +28,8 @@ class Homepage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: .start,
                     children: [
-                      Text("Log Out"),
-                      Text("Settings")
+                      LogOutBtn(),
+                      SettingsBtn()
                     ],
                   ),
                 ),
@@ -42,3 +45,5 @@ class Homepage extends StatelessWidget {
     );
   }
 }
+
+
