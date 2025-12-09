@@ -42,6 +42,7 @@ class BtnCard extends StatelessWidget {
               Align(
                 alignment: .center,
                 child: RichText(
+
                     text: TextSpan(
                       text: '4',
                       style: TextStyle(
@@ -50,8 +51,12 @@ class BtnCard extends StatelessWidget {
                         color: Colors.black
                       ),
                       children: [
-                        TextSpan(
-                          text: "issues",
+                        WidgetSpan(
+
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(text),
+                          ),
                           style: TextStyle(
                               fontSize: 13.0,
                               fontWeight: .w600,

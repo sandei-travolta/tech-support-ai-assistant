@@ -15,9 +15,11 @@ class Homepage extends StatelessWidget {
         children: [
           //Side Bar
           Container(
+            color: Colors.grey.shade50,
             width: 250.0,
             padding: EdgeInsets.all(12.0),
             child: Column(
+              spacing: 5.0,
               children: [
                 SidebarItem(label: "Home", route: Routes.home),
                 SidebarItem(label: "Conversations", route: Routes.conversations),

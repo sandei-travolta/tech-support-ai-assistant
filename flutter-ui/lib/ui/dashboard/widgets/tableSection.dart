@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class TableSection extends StatelessWidget {
   const TableSection({super.key});
@@ -17,9 +18,9 @@ class TableSection extends StatelessWidget {
       child: Table(
         columnWidths: const <int, TableColumnWidth>{
           0: IntrinsicColumnWidth(),
-          1: FixedColumnWidth(250),
+          1: FixedColumnWidth(200),
           2: FixedColumnWidth(100),
-          3:FixedColumnWidth(330),
+          3:FixedColumnWidth(280),
           4:FlexColumnWidth(),
           5:FlexColumnWidth()
         },
@@ -27,58 +28,68 @@ class TableSection extends StatelessWidget {
         children: [
           // Table header
           TableRow(
-            decoration: BoxDecoration(color: Colors.blueGrey.shade100),
-            children: const [
-              Padding(
+            decoration: BoxDecoration(
+                color: Colors.black12,
+                borderRadius: .circular(12.0)),
+            children: [
+              const Padding(
                 padding: EdgeInsets.all(8),
                 child: Text(
                   'Sender',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
-              Padding(
+              const Padding(
                 padding: EdgeInsets.all(8),
                 child: Text(
                   'Message',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
-              Padding(
+              const Padding(
                 padding: EdgeInsets.all(8),
                 child: Text(
                   'category',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
-              Padding(
+              const Padding(
                 padding: EdgeInsets.all(8),
                 child: Text(
                   'Response',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
-              Padding(
+              const Padding(
                 padding: EdgeInsets.all(8),
                 child: Text(
                   'Status',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
-              Padding(
+              const Padding(
                 padding: EdgeInsets.all(8),
                 child: Text(
                   'TimeStamp',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Container()
+              ),
             ],
           ),
-
+          TableRow(
+            children: List.generate(7, (context){
+              return SizedBox(height: 10);
+            })
+          ),
           // Data rows
           for (int i = 0; i < data.length; i++)
             TableRow(
               decoration: BoxDecoration(
-                color: i.isEven ? Colors.grey.shade100 : Colors.white,
+                color: Colors.grey.shade100,
               ),
               children: [
                 Padding(
@@ -99,11 +110,27 @@ class TableSection extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8),
-                  child: Text("Complete",),
+                  child: Column(
+                    
+                    children: [
+                      SvgPicture.asset(
+                          height: 25,
+                          width: 25,
+                          i.isEven?"resources/svgs/complete.svg":"resources/svgs/system-pending.svg"),
+                      Text(i.isEven?"Complete":"Pending",),
+                    ],
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: Text(TimeOfDay.now().format(context).toString()),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: SvgPicture.asset(
+                      height: 35,
+                      width: 35,
+                      "resources/svgs/open.svg"),
                 ),
               ],
             ),
