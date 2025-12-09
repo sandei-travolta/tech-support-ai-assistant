@@ -21,11 +21,18 @@ class TittleSection extends StatelessWidget {
           padding: .only(right:35.0,top:35.0),
           child: Row(
             mainAxisAlignment: .end,
-            spacing: 15.0,
+            spacing: 35.0,
             children: [
-              TagWidgets(text: 'Refresh',),
-              TagWidgets(text: 'Filter'),
-              TagWidgets(text: 'Date'),
+              TagWidgets(
+                text: 'Refresh',
+                asset: 'refresh',),
+              TagWidgets(
+                  text: 'Filter',
+                  asset: 'filter',
+                  ),
+              TagWidgets(
+                  text: 'Date',
+                  asset: 'date-range',),
             ],
           ),
         ))
