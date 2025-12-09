@@ -13,11 +13,26 @@ class Homepage extends StatelessWidget {
           //Side Bar
           Container(
             width: 250.0,
+            padding: EdgeInsets.all(12.0),
             child: Column(
               children: [
                 SidebarItem(label: "Home", route: Routes.home),
                 SidebarItem(label: "Conversations", route: Routes.conversations),
-                SidebarItem(label: "Users", route: Routes.users)
+                SidebarItem(label: "Users", route: Routes.users),
+                Expanded(child: Container()),
+                Container(
+                  width: .infinity,
+                  child: Column(
+                    crossAxisAlignment: .start,
+                    children: [
+                      Text("Log Out"),
+                      Text("Settings")
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 55.0,
+                )
               ],
             ),
           ),

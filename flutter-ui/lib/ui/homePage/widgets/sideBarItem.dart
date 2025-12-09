@@ -11,12 +11,19 @@ class SidebarItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final isSelected = GoRouterState.of(context).uri.toString() == route;
 
-    return ListTile(
-      title: Text(label, style: TextStyle(color: isSelected?Colors.blue:Colors.grey)),
-      selected: isSelected,
-      onTap: () {
-        context.go(route); // <--- IMPORTANT
-      },
+    return Container(
+      decoration: BoxDecoration(
+        color: isSelected?Colors.black:Colors.white,
+        borderRadius: BorderRadius.circular(12.0)
+      ),
+      child: ListTile(
+
+        title: Text(label, style: TextStyle(color: isSelected?Colors.white:Colors.black)),
+        selected: isSelected,
+        onTap: () {
+          context.go(route);
+        },
+      ),
     );
   }
 }
