@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 import 'widgets/btnCards.dart';
+import 'widgets/paginationCounter.dart';
 import 'widgets/tableSection.dart';
 import 'widgets/tagWidget.dart';
 import 'widgets/tittleSection.dart';
@@ -24,12 +25,12 @@ class DashBoardPage extends StatelessWidget {
             ],
           ),
           TittleSection(),
-          TableSection()
+          TableSection(),
+          PaginationCounter()
         ],
       ),
     );
   }
 }
-
 
 
