@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
+import '../../utils/colors.dart';
 import 'widgets/btnCards.dart';
 import 'widgets/paginationCounter.dart';
 import 'widgets/tableSection.dart';
@@ -19,9 +20,19 @@ class DashBoardPage extends StatelessWidget {
           Row(
             mainAxisAlignment: .spaceAround,
             children: [
-              BtnCard(text: 'Issues',),
-              BtnCard(text: "Request",),
-              BtnCard(text: "Conversations",)
+              BtnCard(
+                text: 'Issues',
+                color: AppColors.cardBackground.withOpacity(0.6),
+                description: 'Check Reoccurring Raised issues',
+              ),
+              BtnCard(
+                text: "Request",
+                color: AppColors.cardBackground2.withOpacity(0.9),
+                description: 'Total Requests'),
+              BtnCard(
+                text: "Conversations",
+                color: AppColors.cardBackground3.withOpacity(0.9),
+                description: 'Total Conversations',),
             ],
           ),
           TittleSection(),
