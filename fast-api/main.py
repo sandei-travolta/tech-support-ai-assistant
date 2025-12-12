@@ -7,6 +7,13 @@ from transformers import (
 import torch
 import json
 from google import genai
+from dotenv import load_dotenv
+
+
+load_dotenv()
+
+# Access the API key
+
 
 app = FastAPI()
 
@@ -14,7 +21,8 @@ app = FastAPI()
 # CONFIG
 # ----------------------------
 CLASSIFIER_MODEL_ID = "Sandei/tech-support-classifier"
-GEMINI_API_KEY = "AIzaSyBoeazOjwzeUMWEIy_qe5LIyAp7fO8Fae4"
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
 
 # ----------------------------
 # LOAD CLASSIFIER (MULTI-LABEL)
