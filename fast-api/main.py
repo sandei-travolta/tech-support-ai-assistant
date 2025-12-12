@@ -3,11 +3,10 @@ from pydantic import BaseModel
 from transformers import (
     AutoTokenizer,
     AutoModelForSequenceClassification,
-    AutoModelForSeq2SeqLM,
-    pipeline
 )
 import torch
 import json
+from google import genai
 
 app = FastAPI()
 
@@ -15,7 +14,7 @@ app = FastAPI()
 # CONFIG
 # ----------------------------
 CLASSIFIER_MODEL_ID = "Sandei/tech-support-classifier"
-GENERATION_MODEL_ID = "Sandei/tech_support_flan"
+GEMINI_API_KEY = "AIzaSyBoeazOjwzeUMWEIy_qe5LIyAp7fO8Fae4"
 
 # ----------------------------
 # LOAD CLASSIFIER (MULTI-LABEL)
@@ -50,17 +49,22 @@ def classify_multilabel(text):
     return result
 
 # ----------------------------
-# LOAD FLAN-T5 (Seq2Seq)
+# INITIALIZE GEMINI CLIENT
 # ----------------------------
-gen_tokenizer = AutoTokenizer.from_pretrained(GENERATION_MODEL_ID)
-gen_model = AutoModelForSeq2SeqLM.from_pretrained(GENERATION_MODEL_ID)
+gemini_client = genai.Client(api_key=GEMINI_API_KEY)
 
-gen_pipe = pipeline(
-    "text2text-generation",
-    model=gen_model,
-    tokenizer=gen_tokenizer,
-    device=0 if torch.cuda.is_available() else -1
-)
+def generate_with_gemini(text: str) -> str:
+    """Generate response using Gemini, directing the model to limit output to 1600 characters."""
+    
+    prompt = f"{text}\n\nPlease limit your response to **1600 characters or less**."
+    
+    response = gemini_client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=prompt
+    )
+    
+    return response.text
+
 
 # ----------------------------
 # API MODEL
@@ -78,19 +82,11 @@ def process_message(req: Message):
     # 1️⃣ Classification
     tags = classify_multilabel(text)
 
-    # 2️⃣ Generation
-    generated = gen_pipe(
-        text,
-        max_new_tokens=150,
-        temperature=0.7,
-        top_p=0.95,
-        do_sample=True
-    )[0]["generated_text"]
+    # 2️⃣ Generation with Gemini
+    generated = generate_with_gemini(text)
 
     return {
         "input": text,
         "tags": tags,
         "generated_text": generated
     }
-
-

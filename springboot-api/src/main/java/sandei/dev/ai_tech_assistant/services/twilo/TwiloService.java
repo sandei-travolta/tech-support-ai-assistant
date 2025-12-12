@@ -23,7 +23,7 @@ public class TwiloService {
 
      System.out.println("Body:"+body+"from:"+from.split(":")[1]);
 
-        saveResponse(from.split(":")[1],message);
+        saveResponse(from.split(":")[1],body,message);
         return sendResponse(message);
     }
     String sendResponse(String message){
@@ -35,11 +35,13 @@ public class TwiloService {
 
         return response.toXml();
     }
-    void saveResponse(String from,String message){
+    void saveResponse(String from,String message,String response){
         MessagingEntity messagingEntity=new MessagingEntity();
         messagingEntity.setMessage(message);
         messagingEntity.setSender(from);
+        messagingEntity.setResponse(response);
         messagingEntity.setTimestamp(Timestamp.from(Instant.now()));
+        System.out.println(messagingEntity);
         messagingService.saveMessage(messagingEntity);
     }
 
