@@ -17,6 +17,15 @@ class DashBoardPage extends StatelessWidget {
       padding: .only(top:50.0),
       child: Column(
         children: [
+          Align(
+              alignment: .topLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0,bottom: 5.0),
+                child: Text("DashBoard".toUpperCase(),style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w600
+                ),),
+              )),
           Row(
             mainAxisAlignment: .spaceAround,
             children: [

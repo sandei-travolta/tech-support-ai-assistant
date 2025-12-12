@@ -21,8 +21,9 @@ public class TwiloService {
     public String receiveMessage(String from, String body) throws Exception {
     String message= inferenceService.makeInference(new MessageDto(body)).getGeneratedText();
 
-     System.out.println("Body:"+body+"from:"+from);
-        saveResponse(from,message);
+     System.out.println("Body:"+body+"from:"+from.split(":")[1]);
+
+        saveResponse(from.split(":")[1],message);
         return sendResponse(message);
     }
     String sendResponse(String message){

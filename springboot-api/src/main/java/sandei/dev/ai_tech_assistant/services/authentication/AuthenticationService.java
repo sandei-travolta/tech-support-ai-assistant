@@ -15,7 +15,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationRepository authenticationRepository;
     public UUID login(LoginRequestDto loginRequest){
-        return authenticationRepository.fetchByEmail(loginRequest.getEmail())
+        return authenticationRepository.findByEmail(loginRequest.getEmail())
                 .filter(auth->passwordEncoder.matches(loginRequest.getPassword(),auth.getPassword()))
                 .map(AuthenticationEntity::getUuid)
                 .orElse(null);

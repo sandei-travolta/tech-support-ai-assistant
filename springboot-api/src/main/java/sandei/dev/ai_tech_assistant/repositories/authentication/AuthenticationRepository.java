@@ -7,5 +7,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface AuthenticationRepository extends JpaRepository<AuthenticationEntity, UUID> {
-    Optional<AuthenticationEntity> fetchByEmail(String email);
+    Optional<AuthenticationEntity> findByEmail(String email);
 }

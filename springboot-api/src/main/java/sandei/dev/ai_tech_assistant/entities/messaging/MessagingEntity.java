@@ -15,10 +15,10 @@ public class MessagingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(unique = true)
     private String sender;
+    @Column(columnDefinition = "TEXT")
     private String message;
+    @Column(columnDefinition = "TEXT")
     private String response;
     private Timestamp timestamp;
-
 }

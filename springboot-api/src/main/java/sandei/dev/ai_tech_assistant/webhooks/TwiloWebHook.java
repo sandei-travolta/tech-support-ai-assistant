@@ -1,11 +1,11 @@
 package sandei.dev.ai_tech_assistant.webhooks;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import sandei.dev.ai_tech_assistant.dTOs.Twilo.DebuggerEvent;
 import sandei.dev.ai_tech_assistant.services.twilo.TwiloService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/webhook")
@@ -20,8 +20,32 @@ public class TwiloWebHook {
     public ResponseEntity<String> twiloEndpoint(
             @RequestParam("From") String from,
             @RequestParam("Body") String body) throws Exception {
+
         return ResponseEntity.ok()
                 .header("Content-Type", "application/xml")
                 .body(twiloService.receiveMessage(from,body));
+    }
+    private static final Logger log = LoggerFactory.getLogger(TwiloWebHook.class);
+
+    @PostMapping("/debugger-events")
+    public ResponseEntity<String> handleDebuggerEvent(@RequestBody DebuggerEvent event) {
+        log.info("Received Twilio Debugger Event:");
+        log.info("  AccountSid: {}", event.getAccountSid());
+        log.info("  Sid: {}", event.getSid());
+        log.info("  ParentAccountSid: {}", event.getParentAccountSid());
+        log.info("  Timestamp: {}", event.getTimestamp());
+        log.info("  Level: {}", event.getLevel());
+        log.info("  PayloadType: {}", event.getPayloadType());
+        log.info("  Payload: {}", event.getPayload());
+
+        if ("Error".equalsIgnoreCase(event.getLevel())) {
+            log.error("ERROR level Debugger event detected - Sid: {}, Timestamp: {}",
+                    event.getSid(), event.getTimestamp());
+        } else if ("Warning".equalsIgnoreCase(event.getLevel())) {
+            log.warn("WARNING level Debugger event detected - Sid: {}, Timestamp: {}",
+                    event.getSid(), event.getTimestamp());
+        }
+
+        return ResponseEntity.ok("Event received and logged");
     }
 }

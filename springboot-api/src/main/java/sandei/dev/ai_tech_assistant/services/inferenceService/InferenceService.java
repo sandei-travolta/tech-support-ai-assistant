@@ -8,7 +8,12 @@ import sandei.dev.ai_tech_assistant.dTOs.inferenceEngine.ResponseDto;
 import sandei.dev.ai_tech_assistant.config.Constants;
 @Service
 public class InferenceService {
-    OkHttpClient client =new OkHttpClient();
+    OkHttpClient client = new OkHttpClient.Builder()
+            .connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+            .writeTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
+            .readTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
+            .build();
+
     MediaType JSON = MediaType.get("application/json; charset=utf-8");
     private final ObjectMapper mapper = new ObjectMapper();
 
