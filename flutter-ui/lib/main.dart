@@ -1,9 +1,20 @@
+import 'package:admin_panel/data/repositories/MessagingRepositories.dart';
+import 'package:admin_panel/data/services/messageService.dart';
 import 'package:admin_panel/routing/router.dart';
+import 'package:admin_panel/ui/dashboard/view_models/table_view_model.dart';
 import 'package:admin_panel/utils/themeData.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+      MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (_)=>TableViewModel(
+              MessagingRepositories(MessagingService())
+            ))
+          ],
+          child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

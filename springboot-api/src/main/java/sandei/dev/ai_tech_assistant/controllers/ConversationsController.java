@@ -23,6 +23,10 @@ public class ConversationsController {
     ResponseEntity<List<MessagingEntity>> fetchConversations(){
         return ResponseEntity.ok().body(messagingService.fetchConversations());
     }
+    @GetMapping("/messages")
+    ResponseEntity<List<MessagingEntity>> fetchAllMessages(){
+        return  ResponseEntity.ok().body(messagingService.fetchMessages());
+    }
     @GetMapping("/messages/{sender}")
     ResponseEntity<List<MessagingEntity>> fetchMessages(@RequestParam String sender){
         return ResponseEntity.ok().body(messagingService.fetchConversationMessages(sender));

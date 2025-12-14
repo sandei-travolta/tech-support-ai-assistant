@@ -1,21 +1,21 @@
 import 'dart:convert';
 
 class MessageModel {
-  double confidenceScore;
+  double? confidenceScore;
   int id;
   String message;
-  String response;
+  String? response;
   String sender;
-  String tags;
+  String? tags;
   DateTime timestamp;
 
   MessageModel({
-    required this.confidenceScore,
+    this.confidenceScore,
     required this.id,
     required this.message,
-    required this.response,
+    this.response,
     required this.sender,
-    required this.tags,
+    this.tags,
     required this.timestamp,
   });
 
@@ -27,7 +27,7 @@ class MessageModel {
         response: json["response"],
         sender: json['sender'],
         tags: json['tags'],
-        timestamp: json['timestamp']
+      timestamp: DateTime.parse(json["timestamp"]),
     );
   }
 }

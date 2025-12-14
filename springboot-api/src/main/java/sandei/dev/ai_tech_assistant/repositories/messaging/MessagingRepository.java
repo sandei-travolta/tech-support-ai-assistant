@@ -21,5 +21,5 @@ public interface MessagingRepository extends JpaRepository<MessagingEntity, Inte
 
 
     List<MessagingEntity> findBySenderOrderByTimestampDesc(String sender);
-
+    List<MessagingEntity> findAllByOrderByTimestampDesc();
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../view_models/table_view_model.dart';
 import 'tagWidget.dart';
 class TittleSection extends StatelessWidget {
   const TittleSection({
@@ -8,6 +10,7 @@ class TittleSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final vm = context.watch<TableViewModel>();
     return Row(
       children: [
         Expanded(child: Container(
@@ -23,9 +26,12 @@ class TittleSection extends StatelessWidget {
             mainAxisAlignment: .end,
             spacing: 35.0,
             children: [
-              TagWidgets(
-                text: 'Refresh',
-                asset: 'refresh',),
+              InkWell(
+                onTap: vm.loadMessages,
+                child: TagWidgets(
+                  text: 'Refresh',
+                  asset: 'refresh',),
+              ),
               TagWidgets(
                   text: 'Filter',
                   asset: 'filter',
