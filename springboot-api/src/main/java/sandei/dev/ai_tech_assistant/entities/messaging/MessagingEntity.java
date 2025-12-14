@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity(name = "message")
 @Getter
@@ -21,4 +23,6 @@ public class MessagingEntity {
     @Column(columnDefinition = "TEXT")
     private String response;
     private Timestamp timestamp;
+    private String tags;
+    private Double confidenceScore;
 }

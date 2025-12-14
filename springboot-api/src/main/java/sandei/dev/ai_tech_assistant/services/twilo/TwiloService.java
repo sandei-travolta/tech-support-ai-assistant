@@ -6,6 +6,7 @@ import com.twilio.twiml.messaging.Message;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import sandei.dev.ai_tech_assistant.dTOs.inferenceEngine.MessageDto;
+import sandei.dev.ai_tech_assistant.dTOs.inferenceEngine.ResponseDto;
 import sandei.dev.ai_tech_assistant.entities.messaging.MessagingEntity;
 import sandei.dev.ai_tech_assistant.services.inferenceService.InferenceService;
 import sandei.dev.ai_tech_assistant.services.messaging.MessagingService;
@@ -19,12 +20,12 @@ public class TwiloService {
     private final InferenceService inferenceService;
     private final MessagingService messagingService;
     public String receiveMessage(String from, String body) throws Exception {
-    String message= inferenceService.makeInference(new MessageDto(body)).getGeneratedText();
+    ResponseDto response= inferenceService.makeInference(new MessageDto(body));
 
      System.out.println("Body:"+body+"from:"+from.split(":")[1]);
 
-        saveResponse(from.split(":")[1],body,message);
-        return sendResponse(message);
+        saveResponse(from.split(":")[1],body,response);
+        return sendResponse(response.getGeneratedText());
     }
     String sendResponse(String message){
         Body body=new Body.Builder(message).build();
@@ -35,13 +36,14 @@ public class TwiloService {
 
         return response.toXml();
     }
-    void saveResponse(String from,String message,String response){
+    void saveResponse(String from,String message,ResponseDto response){
         MessagingEntity messagingEntity=new MessagingEntity();
         messagingEntity.setMessage(message);
         messagingEntity.setSender(from);
-        messagingEntity.setResponse(response);
+        messagingEntity.setResponse(response.getGeneratedText());
         messagingEntity.setTimestamp(Timestamp.from(Instant.now()));
-        System.out.println(messagingEntity);
+        messagingEntity.setTags(response.getTags().getFirst().getTag());
+        messagingEntity.setConfidenceScore(response.getTags().getFirst().getProbability());
         messagingService.saveMessage(messagingEntity);
     }
 
