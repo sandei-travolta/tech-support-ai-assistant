@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import sandei.dev.ai_tech_assistant.dTOs.inferenceEngine.MessageDto;
 import sandei.dev.ai_tech_assistant.dTOs.inferenceEngine.ResponseDto;
+import sandei.dev.ai_tech_assistant.dTOs.inferenceEngine.TagDto;
 import sandei.dev.ai_tech_assistant.entities.messaging.MessagingEntity;
 import sandei.dev.ai_tech_assistant.services.inferenceService.InferenceService;
 import sandei.dev.ai_tech_assistant.services.messaging.MessagingService;
@@ -42,8 +43,16 @@ public class TwiloService {
         messagingEntity.setSender(from);
         messagingEntity.setResponse(response.getGeneratedText());
         messagingEntity.setTimestamp(Timestamp.from(Instant.now()));
-        messagingEntity.setTags(response.getTags().getFirst().getTag());
-        messagingEntity.setConfidenceScore(response.getTags().getFirst().getProbability());
+        String tag = response.getTags().stream()
+                .findFirst()
+                .map(TagDto::getTag)
+                .orElse("");
+        messagingEntity.setTags(tag);
+        double confidenceScore = response.getTags().stream()
+                .findFirst()
+                .map(TagDto::getProbability)
+                .orElse(0.0);
+        messagingEntity.setConfidenceScore(confidenceScore);
         messagingService.saveMessage(messagingEntity);
     }
 

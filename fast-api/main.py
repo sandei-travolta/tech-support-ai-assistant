@@ -65,7 +65,7 @@ gemini_client = genai.Client(api_key=GEMINI_API_KEY)
 def generate_with_gemini(text: str) -> str:
     """Generate response using Gemini, directing the model to limit output to 1600 characters."""
     
-    prompt = f"{text}\n\nPlease limit your response to **1600 characters or less**."
+    prompt = f"Take the role of a IT help support desk assistant.keep the responses clear {text}\n\nPlease limit your response to **1600 characters or less**."
     
     response = gemini_client.models.generate_content(
         model="gemini-2.5-flash",

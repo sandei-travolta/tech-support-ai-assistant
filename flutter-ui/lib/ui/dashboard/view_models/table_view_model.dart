@@ -1,9 +1,5 @@
-
-
 import 'package:admin_panel/data/models/messageModel.dart';
-
 import 'package:flutter/material.dart';
-
 import '../../../data/repositories/MessagingRepositories.dart';
 
 class TableViewModel extends ChangeNotifier {
@@ -15,8 +11,8 @@ class TableViewModel extends ChangeNotifier {
   bool isLoading = false;
   String? error;
 
-  int pageSize = 3; // 👈 dynamic number of items per page
-  int start = 0;    // current offset
+  int pageSize = 3;
+  int start = 0;
 
   Future<void> loadMessages() async {
     isLoading = true;
@@ -32,10 +28,12 @@ class TableViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
+
   int get currentPage => (start ~/ pageSize) + 1;
+
   int get totalPages =>
       (messages.length / pageSize).ceil();
-  /// 🔹 What the UI should display
+
   List<MessageModel> get visibleMessages =>
       messages.skip(start).take(pageSize).toList();
 
@@ -50,4 +48,5 @@ class TableViewModel extends ChangeNotifier {
     start -= pageSize;
     notifyListeners();
   }
+
 }
