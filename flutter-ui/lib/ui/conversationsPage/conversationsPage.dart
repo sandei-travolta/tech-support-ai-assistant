@@ -9,12 +9,15 @@ class ConversationsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Row(
-        spacing: 15.0,
-        children: [
-          ConversationsSection(),
-          ChatSection()
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Row(
+          spacing: 15.0,
+          children: [
+            ConversationsSection(),
+            ChatSection()
+          ],
+        ),
       ),
     );
   }
