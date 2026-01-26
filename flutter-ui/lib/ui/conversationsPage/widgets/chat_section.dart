@@ -1,3 +1,4 @@
+import 'package:admin_panel/ui/conversationsPage/widgets/conversations_tab.dart';
 import 'package:flutter/material.dart';
 
 class ChatSection extends StatelessWidget {
@@ -30,7 +31,7 @@ class ChatSection extends StatelessWidget {
 
           ),
           child: Center(
-            child: Text("Select Conversation"),
+            child: true?ConversationsTab():Text("Select Conversation"),
           ),
         ));
   }
