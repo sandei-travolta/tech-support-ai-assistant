@@ -1,52 +1,92 @@
 import 'package:flutter/material.dart';
 
-class MessageCard extends StatelessWidget {
-  const MessageCard({
-    super.key,
-  });
+class MessageCard extends StatefulWidget {
+  const MessageCard({super.key});
+
+  @override
+  State<MessageCard> createState() => _MessageCardState();
+}
+
+class _MessageCardState extends State<MessageCard> {
+  bool isHovered = false;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const .only(top:5),
-      child: Container(
-        child: Row(
-          spacing: 15.0,
-          children: [
-            Container(
-              height: 50,
-              width: 50,
+      padding: const EdgeInsets.only(top: 6),
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        onEnter: (_) => setState(() => isHovered = true),
+        onExit: (_) => setState(() => isHovered = false),
+        child: TweenAnimationBuilder<double>(
+          duration: Duration(milliseconds: isHovered ? 300 : 50),
+          curve: isHovered ? Curves.easeOutCubic : Curves.easeInCubic,
+          tween: Tween(begin: 0.0, end: isHovered ? 1.0 : 0.0),
+          builder: (context, value, child) {
+            return Container(
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                  shape: .circle,
-                  color: Colors.grey
+                borderRadius: BorderRadius.circular(10),
+                color: Color.lerp(
+                  Colors.transparent,
+                  Colors.grey.shade100,
+                  value,
+                ),
+                boxShadow: value > 0
+                    ? [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.12 * value),
+                    blurRadius: 12 * value,
+                    offset: Offset(0, 4 * value),
+                  )
+                ]
+                    : null,
               ),
-            ),
-            Column(
-              crossAxisAlignment: .start,
-              children: [
-                Text("+254792406400"),
-                Container(
-                    width: 250,
-                    child: Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ut consectetur eros, eu congue enim.",
-                    overflow: .ellipsis,
-                    maxLines: 2,))
-              ],
-            ),
-            Column(
-              children: [
-                Text("now"),
-                Container(
-                    decoration: BoxDecoration(
-                      color: Colors.green,
-                      shape: .circle
+              child: child,
+            );
+          },
+          child: Row(
+            children: [
+              Container(
+                height: 50,
+                width: 50,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.grey,
+                ),
+              ),
+              const SizedBox(width: 15),
+              const Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("+254792406400"),
+                    SizedBox(height: 4),
+                    Text(
+                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ut consectetur eros, eu congue enim.",
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text("1"),
-                    ))
-              ],
-            )
-          ],
+                  ],
+                ),
+              ),
+              const SizedBox(width: 15),
+              const Column(
+                children: [
+                  Text("now"),
+                  SizedBox(height: 5),
+                  CircleAvatar(
+                    radius: 10,
+                    backgroundColor: Colors.green,
+                    child: Text(
+                      "1",
+                      style: TextStyle(fontSize: 12, color: Colors.white),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

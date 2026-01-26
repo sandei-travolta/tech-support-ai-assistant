@@ -26,7 +26,11 @@ class ChatSection extends StatelessWidget {
                   spreadRadius: -8,
                   offset: Offset(0, 8),
                 )
-              ]
+              ],
+
+          ),
+          child: Center(
+            child: Text("Select Conversation"),
           ),
         ));
   }
