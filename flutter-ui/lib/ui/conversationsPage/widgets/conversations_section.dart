@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'message_card.dart';
 class ConversationsSection extends StatelessWidget {
   const ConversationsSection({
-    super.key,
+    super.key, required this.conversation, required this.selectChat,
   });
-
+  final String? conversation;
+  final void Function(String id) selectChat;
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -42,7 +43,7 @@ class ConversationsSection extends StatelessWidget {
                   child: ListView.builder(
                       itemCount: 3,
                       itemBuilder: (c,i){
-                    return MessageCard();
+                    return MessageCard(conversationId: i.toString(), selectChat: selectChat,selected: conversation==i.toString());
                   }),
                 ),
               )

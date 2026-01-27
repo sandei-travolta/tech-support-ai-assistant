@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ConversationsTab extends StatelessWidget {
-  const ConversationsTab({super.key});
-
+  const ConversationsTab({super.key, this.id, required this.closeChat});
+  final String? id;
+  final  VoidCallback closeChat;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -33,13 +34,15 @@ class ConversationsTab extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 12),
-              const Text(
-                "+254792406400",
+              Text(
+                "+254792406400 ID ${id}",
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 16,
                 ),
               ),
+              Expanded(child: Container()),
+              IconButton(onPressed:closeChat, icon: Icon(Icons.close))
             ],
           ),
         ),

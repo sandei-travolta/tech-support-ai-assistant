@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 
 class ChatSection extends StatelessWidget {
   const ChatSection({
-    super.key,
+    super.key, required this.isVisible, required this.id, required this.closeChat,
   });
-
+  final bool isVisible;
+  final String? id;
+  final VoidCallback closeChat;
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -31,7 +33,7 @@ class ChatSection extends StatelessWidget {
 
           ),
           child: Center(
-            child: true?ConversationsTab():Text("Select Conversation"),
+            child: isVisible?ConversationsTab(id: id, closeChat: closeChat):Text("Select Conversation"),
           ),
         ));
   }
