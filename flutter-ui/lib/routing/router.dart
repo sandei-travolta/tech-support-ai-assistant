@@ -4,8 +4,9 @@ import 'package:admin_panel/ui/dashboard/dashboardPage.dart';
 import 'package:admin_panel/ui/homePage/homePage.dart';
 import 'package:admin_panel/ui/loginPage/loginpage.dart';
 import 'package:admin_panel/ui/splashScreen/splashScreen.dart';
-import 'package:admin_panel/ui/usersPage/usersPage.dart';
 import 'package:go_router/go_router.dart';
+
+import '../ui/statsPage/usersPage.dart';
 
 GoRouter route()=>GoRouter(
     initialLocation: Routes.splashScreen,

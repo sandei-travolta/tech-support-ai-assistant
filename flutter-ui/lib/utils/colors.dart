@@ -37,4 +37,18 @@ abstract final class AppColors{
     error: Colors.black,
     onError: AppColors.red1,
   );
+
+  static Color contentColorBlue=Colors.blue;
+
+  static Color mainTextColor1=Colors.white;
+
+  static Color contentColorYellow=Colors.yellowAccent;
+
+  static Color contentColorPurple=Colors.purple;
+
+  static Color contentColorGreen=Colors.green;
+
+  static Color contentColorCyan=Colors.cyan;
+
+
 }
