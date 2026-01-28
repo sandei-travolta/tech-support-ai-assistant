@@ -54,44 +54,43 @@ class CategoriesPieChartState extends State {
           ),
            Column(
             mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisSize: .max,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              const SizedBox(height: 25),
               Indicator(
                 color: AppColors.contentColorBlue,
-                text: 'First',
+                text: 'Software',
                 isSquare: true,
               ),
               SizedBox(
-                height: 4,
+                height: 2,
               ),
               Indicator(
                 color: AppColors.contentColorYellow,
-                text: 'Second',
+                text: 'Hardware',
                 isSquare: true,
               ),
               SizedBox(
-                height: 4,
+                height: 2,
               ),
               Indicator(
                 color: AppColors.contentColorPurple,
-                text: 'Third',
+                text: 'Network',
                 isSquare: true,
               ),
               SizedBox(
-                height: 4,
+                height: 2,
               ),
               Indicator(
                 color: AppColors.contentColorGreen,
-                text: 'Fourth',
+                text: 'Printer',
                 isSquare: true,
-              ),
-              SizedBox(
-                height: 18,
               ),
             ],
           ),
           const SizedBox(
-            width: 28,
+            width: 30,
           ),
         ],
       ),

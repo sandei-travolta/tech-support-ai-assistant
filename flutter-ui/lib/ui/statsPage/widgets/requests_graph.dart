@@ -1,177 +1,113 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-import '../../../utils/colors.dart';
 
 class _BarChart extends StatelessWidget {
   const _BarChart();
 
   @override
   Widget build(BuildContext context) {
-    return BarChart(
-      BarChartData(
-        barTouchData: barTouchData,
-        titlesData: titlesData,
-        borderData: borderData,
-        barGroups: barGroups,
-        gridData: const FlGridData(show: false),
-        alignment: BarChartAlignment.spaceAround,
-        maxY: 20,
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 10,
+            offset: Offset(0, 4),
+            color: Colors.black.withOpacity(.05),
+          )
+        ],
+      ),
+      child: BarChart(
+        BarChartData(
+          maxY: 20,
+          alignment: BarChartAlignment.spaceBetween,
+          barTouchData: barTouchData,
+          titlesData: titlesData,
+          borderData: FlBorderData(show: false),
+          gridData: FlGridData(
+            show: true,
+            drawVerticalLine: false,
+            horizontalInterval: 5,
+            getDrawingHorizontalLine: (value) {
+              return FlLine(
+                strokeWidth: 1,
+                color: Colors.grey.withOpacity(.15),
+              );
+            },
+          ),
+          barGroups: barGroups,
+        ),
+        swapAnimationDuration: const Duration(milliseconds: 600),
       ),
     );
   }
 
-  BarTouchData get barTouchData => BarTouchData(
-    enabled: false,
-    touchTooltipData: BarTouchTooltipData(
-      getTooltipColor: (group) => Colors.transparent,
-      tooltipPadding: EdgeInsets.zero,
-      tooltipMargin: 8,
-      getTooltipItem: (
-          BarChartGroupData group,
-          int groupIndex,
-          BarChartRodData rod,
-          int rodIndex,
-          ) {
-        return BarTooltipItem(
-          rod.toY.round().toString(),
-          TextStyle(
-            color: AppColors.contentColorCyan,
-            fontWeight: FontWeight.bold,
-          ),
-        );
-      },
-    ),
-  );
+  BarTouchData get barTouchData => BarTouchData(enabled: false);
 
   Widget getTitles(double value, TitleMeta meta) {
     final style = TextStyle(
-      color: AppColors.contentColorBlue.withOpacity(0.3),
-      fontWeight: FontWeight.bold,
-      fontSize: 14,
+      color: Colors.grey.shade600,
+      fontWeight: FontWeight.w600,
+      fontSize: 12,
     );
-    String text = switch (value.toInt()) {
-      0 => 'Mn',
-      1 => 'Te',
-      2 => 'Wd',
-      3 => 'Tu',
-      4 => 'Fr',
-      5 => 'St',
-      6 => 'Sn',
-      _ => '',
-    };
+
+    const labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
     return SideTitleWidget(
       meta: meta,
-      space: 4,
-      child: Text(text, style: style),
+      child: Text(labels[value.toInt()], style: style),
     );
   }
 
   FlTitlesData get titlesData => FlTitlesData(
-    show: true,
     bottomTitles: AxisTitles(
       sideTitles: SideTitles(
         showTitles: true,
-        reservedSize: 30,
+        reservedSize: 28,
         getTitlesWidget: getTitles,
       ),
     ),
-    leftTitles: const AxisTitles(
-      sideTitles: SideTitles(showTitles: false),
+    leftTitles: AxisTitles(
+      sideTitles: SideTitles(
+        showTitles: true,
+        interval: 5,
+        getTitlesWidget: (value, meta) => Text(
+          value.toInt().toString(),
+          style: TextStyle(color: Colors.grey.shade500, fontSize: 11),
+        ),
+        reservedSize: 28,
+      ),
     ),
-    topTitles: const AxisTitles(
-      sideTitles: SideTitles(showTitles: false),
-    ),
-    rightTitles: const AxisTitles(
-      sideTitles: SideTitles(showTitles: false),
-    ),
+    rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+    topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
   );
 
-  FlBorderData get borderData => FlBorderData(
-    show: false,
-  );
-
-  LinearGradient get _barsGradient => LinearGradient(
-    colors: [
-      AppColors.contentColorBlue.withOpacity(0.2),
-      AppColors.contentColorCyan,
-    ],
+  LinearGradient get _barsGradient => const LinearGradient(
     begin: Alignment.bottomCenter,
     end: Alignment.topCenter,
+    colors: [
+      Color(0xff4facfe),
+      Color(0xff00f2fe),
+    ],
   );
 
-  List<BarChartGroupData> get barGroups => [
-    BarChartGroupData(
-      x: 0,
+  List<BarChartGroupData> get barGroups => List.generate(
+    7,
+        (i) => BarChartGroupData(
+      x: i,
       barRods: [
         BarChartRodData(
-          toY: 8,
+          toY: [8, 10, 14, 15, 13, 10, 16][i].toDouble(),
+          width: 18,
+          borderRadius: BorderRadius.circular(8),
           gradient: _barsGradient,
-        )
+        ),
       ],
-      showingTooltipIndicators: [0],
     ),
-    BarChartGroupData(
-      x: 1,
-      barRods: [
-        BarChartRodData(
-          toY: 10,
-          gradient: _barsGradient,
-        )
-      ],
-      showingTooltipIndicators: [0],
-    ),
-    BarChartGroupData(
-      x: 2,
-      barRods: [
-        BarChartRodData(
-          toY: 14,
-          gradient: _barsGradient,
-        )
-      ],
-      showingTooltipIndicators: [0],
-    ),
-    BarChartGroupData(
-      x: 3,
-      barRods: [
-        BarChartRodData(
-          toY: 15,
-          gradient: _barsGradient,
-        )
-      ],
-      showingTooltipIndicators: [0],
-    ),
-    BarChartGroupData(
-      x: 4,
-      barRods: [
-        BarChartRodData(
-          toY: 13,
-          gradient: _barsGradient,
-        )
-      ],
-      showingTooltipIndicators: [0],
-    ),
-    BarChartGroupData(
-      x: 5,
-      barRods: [
-        BarChartRodData(
-          toY: 10,
-          gradient: _barsGradient,
-        )
-      ],
-      showingTooltipIndicators: [0],
-    ),
-    BarChartGroupData(
-      x: 6,
-      barRods: [
-        BarChartRodData(
-          toY: 16,
-          gradient: _barsGradient,
-        )
-      ],
-      showingTooltipIndicators: [0],
-    ),
-  ];
+  );
 }
 
 class RequestsGraph extends StatefulWidget {

@@ -25,8 +25,15 @@ class UsersPage extends StatelessWidget {
                       child: Row(
                         children: [
                           Expanded(child: Container(
-                            child: CategoriesPieChart(),
+                            child: Column(
+                              crossAxisAlignment: .start,
+                              children: [
+                                Text("Query Categories",style: Theme.of(context).textTheme.labelLarge),
+                                CategoriesPieChart(),
+                              ],
+                            ),
                           )),
+                          const SizedBox(width: 5),
                           Expanded(child: TasksCard())
                         ],
                       ),
@@ -35,8 +42,23 @@ class UsersPage extends StatelessWidget {
                         flex: 1,
                         child: Row(
                           children: [
-                            Expanded(child: RequestsGraph()),
-                            Expanded(child: UrgencyGaugeChart())
+                            Expanded(child: Column(
+                              crossAxisAlignment: .start,
+                              children: [
+                                Text("Requests Graph",style: Theme.of(context).textTheme.titleMedium),
+                                const SizedBox(height: 10),
+                                RequestsGraph(),
+                              ],
+                            )),
+                            const SizedBox(width: 25.0),
+                            Expanded(child: Column(
+                              crossAxisAlignment: .start,
+                              children: [
+                                Text("Requests Urgencey",style: Theme.of(context).textTheme.titleMedium),
+                                const SizedBox(height: 10),
+                                UrgencyGaugeChart(),
+                              ],
+                            ))
                           ],
                     ))
                   ],
