@@ -40,7 +40,7 @@ class UrgencyGaugeChart extends StatelessWidget {
                       ),
                     ),
                     const Text(
-                      "Total members",
+                      "Total Requests",
                       style: TextStyle(color: Colors.grey),
                     ),
                   ],
