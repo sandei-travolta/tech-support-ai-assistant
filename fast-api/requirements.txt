@@ -1,6 +1,8 @@
-fastapi==0.111.1
-pydantic==1.10.12
-torch==2.1.0
-transformers==4.35.0
-google-genai==0.2.1
-uvicorn==0.25.0
+fastapi
+uvicorn[standard]
+transformers
+sentence-transformers
+faiss-cpu
+pandas
+python-dotenv
+huggingface-hub
