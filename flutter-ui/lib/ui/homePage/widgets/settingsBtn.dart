@@ -7,6 +7,9 @@ class SettingsBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text("Settings");
+    return IconButton(
+        onPressed: (){
+
+        }, icon:Icon(Icons.settings));
   }
 }

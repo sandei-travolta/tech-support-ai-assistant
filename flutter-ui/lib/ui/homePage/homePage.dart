@@ -30,8 +30,9 @@ class Homepage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: .start,
                     children: [
+                      SettingsBtn(),
+                      const SizedBox(height: 25),
                       LogOutBtn(),
-                      SettingsBtn()
                     ],
                   ),
                 ),
