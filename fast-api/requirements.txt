@@ -1,8 +1,12 @@
-fastapi
+fastapi>=0.103,<1
 uvicorn[standard]
-transformers
-sentence-transformers
+
+torch
+transformers>=4.36,<5
+sentence-transformers>=2.2,<3
+huggingface-hub>=0.20,<1
+accelerate
+
 faiss-cpu
 pandas
 python-dotenv
-huggingface-hub

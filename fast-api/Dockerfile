@@ -1,21 +1,20 @@
-# Use a small Python base image
-FROM python:3.12-slim
+FROM python:3.10-slim
 
-# Set working directory
 WORKDIR /app
 
-# Copy project files
 COPY . /app
 
-# Upgrade pip
 RUN pip install --upgrade pip
 
-# Install PyTorch CPU and other dependencies
-RUN pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+# Install CPU-only PyTorch
+RUN pip install --no-cache-dir \
+    torch==2.1.2+cpu \
+    torchvision==0.16.2+cpu \
+    torchaudio==2.1.2+cpu \
+    --index-url https://download.pytorch.org/whl/cpu
+
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose FastAPI port
-EXPOSE 8000
+EXPOSE 7860
 
-# Start FastAPI app
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "7860"]
