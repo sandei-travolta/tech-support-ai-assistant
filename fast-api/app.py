@@ -11,8 +11,9 @@ from models import (
     UrgencyPrediction
 )
 from multi_task_model_class import MultiTaskModel
-from rag import generate_answer
+
 from memory import get_conversation, add_message
+from service.rag_service import generate_answer
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -127,15 +128,6 @@ def classify_text(text: str, threshold: float = 0.5):
     return categories, urgency
 
 
-def retrieve_documents(query: str):
-    """
-    Retrieve relevant documents for RAG.
-    """
-    return [
-        "Restarting the router fixes most connectivity issues.",
-        "Check for planned ISP maintenance.",
-        "Verify cables are securely connected."
-    ]
 
 
 @app.get("/")
@@ -160,8 +152,7 @@ def query_endpoint(req: QueryRequest):
     categories, urgency = classify_text(req.query)
 
     # RAG
-    docs = retrieve_documents(req.query)
-    answer = generate_answer(req.query, docs, history)
+    answer = generate_answer(req.query,"1")
 
     # Update conversation memory
     add_message(req.user_id, "user", req.query)
