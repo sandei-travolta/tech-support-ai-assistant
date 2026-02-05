@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sandei.dev.ai_tech_assistant.dTOs.authentication.LoginRequestDto;
+import sandei.dev.ai_tech_assistant.dTOs.authentication.RegisterRequestDto;
 import sandei.dev.ai_tech_assistant.services.authentication.AuthenticationService;
 import sandei.dev.ai_tech_assistant.utils.JwtUtil;
 
@@ -24,5 +25,12 @@ public class AuthenticationContoller {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         return ResponseEntity.ok(jwtUtil.generateToken(authenticationService.login(requestDto)));
+    }
+    @PostMapping("/register")
+    public ResponseEntity<String> login(RegisterRequestDto requestDto){
+        if(authenticationService.registerUser(requestDto)){
+            return ResponseEntity.ok("success");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
     }
 }

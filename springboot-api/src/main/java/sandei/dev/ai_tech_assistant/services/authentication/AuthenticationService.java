@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import sandei.dev.ai_tech_assistant.dTOs.authentication.LoginRequestDto;
+import sandei.dev.ai_tech_assistant.dTOs.authentication.RegisterRequestDto;
 import sandei.dev.ai_tech_assistant.entities.authentication.AuthenticationEntity;
 import sandei.dev.ai_tech_assistant.repositories.authentication.AuthenticationRepository;
 
@@ -19,5 +20,16 @@ public class AuthenticationService {
                 .filter(auth->passwordEncoder.matches(loginRequest.getPassword(),auth.getPassword()))
                 .map(AuthenticationEntity::getUuid)
                 .orElse(null);
+    }
+    public Boolean registerUser(RegisterRequestDto requestDto){
+        AuthenticationEntity authBody=new AuthenticationEntity();
+        authBody.setEmail(requestDto.getEmail());
+        authBody.setPassword(passwordEncoder.encode(requestDto.getPassword()));
+        AuthenticationEntity saved=authenticationRepository.save(authBody);
+        if (saved!=null){
+            return true;
+        }else {
+            return false;
+        }
     }
 }
