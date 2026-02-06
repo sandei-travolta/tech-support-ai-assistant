@@ -9,5 +9,6 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor  // <-- this generates a constructor with a String argument
 public class MessageDto {
-    private String message;
+    private String query;
+    private String user_id;
 }
