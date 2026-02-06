@@ -6,6 +6,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Data
 public class TagDto {
-    private String tag;
+    private String category;
     private double probability;
 }

@@ -24,5 +24,6 @@ public class MessagingEntity {
     private String response;
     private Timestamp timestamp;
     private String tags;
+    private String urgency;
     private Double confidenceScore;
 }

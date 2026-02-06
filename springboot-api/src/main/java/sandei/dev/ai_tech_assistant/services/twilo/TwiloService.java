@@ -45,14 +45,16 @@ public class TwiloService {
         messagingEntity.setTimestamp(Timestamp.from(Instant.now()));
         String tag = response.getTags().stream()
                 .findFirst()
-                .map(TagDto::getTag)
+                .map(TagDto::getCategory)
                 .orElse("");
         messagingEntity.setTags(tag);
+
         double confidenceScore = response.getTags().stream()
                 .findFirst()
                 .map(TagDto::getProbability)
                 .orElse(0.0);
         messagingEntity.setConfidenceScore(confidenceScore);
+        messagingEntity.setUrgency(response.getUrgency().getUrgency());
         messagingService.saveMessage(messagingEntity);
     }
 

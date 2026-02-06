@@ -15,8 +15,11 @@ import java.util.List;
 public class ResponseDto {
    @JsonProperty("input")
     private String input;
-    @JsonProperty("tags")
+    @JsonProperty("categories")
     private List<TagDto> tags;
+    @JsonProperty("urgency")
+    private  UrgencyDto urgency;
     @JsonProperty("generated_text")
     private String generatedText;
+
 }
