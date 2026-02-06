@@ -8,6 +8,7 @@ import sandei.dev.ai_tech_assistant.dTOs.inferenceEngine.ResponseDto;
 import sandei.dev.ai_tech_assistant.config.Constants;
 @Service
 public class InferenceService {
+    private final Constants constants;
     OkHttpClient client = new OkHttpClient.Builder()
             .connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
             .writeTimeout(60, java.util.concurrent.TimeUnit.SECONDS)
@@ -17,11 +18,15 @@ public class InferenceService {
     MediaType JSON = MediaType.get("application/json; charset=utf-8");
     private final ObjectMapper mapper = new ObjectMapper();
 
+    public InferenceService(Constants constants) {
+        this.constants = constants;
+    }
+
     public ResponseDto makeInference(MessageDto message)throws Exception{
         String json=mapper.writeValueAsString(message);
         RequestBody body =RequestBody.create(json,MediaType.parse("application/json"));
         Request httpRequest =new Request.Builder()
-                .url(Constants.API_URL+"process")
+                .url(constants.getApiUrl())
                 .post(body)
                 .build();
         Response response=client.newCall(httpRequest).execute();

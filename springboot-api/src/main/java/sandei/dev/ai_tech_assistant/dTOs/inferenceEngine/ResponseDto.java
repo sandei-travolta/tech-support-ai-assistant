@@ -13,13 +13,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResponseDto {
-   @JsonProperty("input")
+   @JsonProperty("query")
     private String input;
     @JsonProperty("categories")
     private List<TagDto> tags;
     @JsonProperty("urgency")
     private  UrgencyDto urgency;
-    @JsonProperty("generated_text")
+    @JsonProperty("answer")
     private String generatedText;
+    @JsonProperty("user_id")
+    private String userId;
 
 }
