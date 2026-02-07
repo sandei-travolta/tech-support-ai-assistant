@@ -8,4 +8,10 @@ class MessagingRepositories {
   Future<List<MessageModel>> fetchMessages(){
     return _service.fetchMessages();
   }
+  Future<List<MessageModel>> fetchConversations(){
+    return _service.fetchConversation();
+  }
+  Future<List<MessageModel>> fetchConversationMessages(String uid){
+    return _service.fetchConversationMessages(uid);
+  }
 }

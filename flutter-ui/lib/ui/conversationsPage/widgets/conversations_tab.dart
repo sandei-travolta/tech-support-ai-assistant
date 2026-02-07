@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../view_models/conversations_page_model_view.dart';
 
 class ConversationsTab extends StatelessWidget {
   const ConversationsTab({super.key, this.id, required this.closeChat});
@@ -6,6 +9,7 @@ class ConversationsTab extends StatelessWidget {
   final  VoidCallback closeChat;
   @override
   Widget build(BuildContext context) {
+    final vm = context.watch<ConversationsPageModelView>();
     return Column(
       children: [
         // HEADER
@@ -35,7 +39,7 @@ class ConversationsTab extends StatelessWidget {
               ),
               const SizedBox(width: 12),
               Text(
-                "+254792406400 ID ${id}",
+                id.toString(),
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 16,
@@ -52,10 +56,12 @@ class ConversationsTab extends StatelessWidget {
             color: Colors.grey.shade50,
             child: ListView.builder(
               padding: const EdgeInsets.all(16),
-              itemCount: 15,
+              itemCount: vm.conversationMessages.length,
               reverse: true, // Start from bottom like chat apps
               itemBuilder: (context, index) {
-                final isMe = index % 2 == 0;
+                final reversedIndex = vm.conversationMessages.length - 1 - index;
+                final message = vm.conversationMessages[reversedIndex];
+                final isMe = message.sender != id;
                 return Align(
                   alignment:
                   isMe ? Alignment.centerRight : Alignment.centerLeft,
@@ -75,8 +81,8 @@ class ConversationsTab extends StatelessWidget {
                     ),
                     child: Text(
                       isMe
-                          ? "Hello, this is my message."
-                          : "Hi! This is their reply.",
+                          ? message.message
+                          : message.response!,
                       style: TextStyle(
                         color: isMe ? Colors.white : Colors.black,
                         fontSize: 15,

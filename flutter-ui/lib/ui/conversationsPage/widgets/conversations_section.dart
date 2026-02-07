@@ -1,14 +1,31 @@
+import 'package:admin_panel/ui/conversationsPage/view_models/conversations_page_model_view.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'message_card.dart';
-class ConversationsSection extends StatelessWidget {
+class ConversationsSection extends StatefulWidget {
   const ConversationsSection({
     super.key, required this.conversation, required this.selectChat,
   });
   final String? conversation;
   final void Function(String id) selectChat;
+
+  @override
+  State<ConversationsSection> createState() => _ConversationsSectionState();
+}
+
+class _ConversationsSectionState extends State<ConversationsSection> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ConversationsPageModelView>().loadMessages();
+    });
+  }
   @override
   Widget build(BuildContext context) {
+    final vm = context.watch<ConversationsPageModelView>();
     return Expanded(
         flex: 2,
         child: Container(
@@ -41,9 +58,10 @@ class ConversationsSection extends StatelessWidget {
               Expanded(
                 child: Container(
                   child: ListView.builder(
-                      itemCount: 3,
+                      itemCount:vm.messages.length,
                       itemBuilder: (c,i){
-                    return MessageCard(conversationId: i.toString(), selectChat: selectChat,selected: conversation==i.toString());
+                        final message=vm.messages[i];
+                    return MessageCard(conversationId:message.sender.toString(), selectChat: widget.selectChat,selected: widget.conversation==i.toString(), messageModel: message,);
                   }),
                 ),
               )

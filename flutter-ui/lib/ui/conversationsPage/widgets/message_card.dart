@@ -1,3 +1,4 @@
+import 'package:admin_panel/data/models/messageModel.dart';
 import 'package:flutter/material.dart';
 
 class MessageCard extends StatefulWidget {
@@ -6,8 +7,9 @@ class MessageCard extends StatefulWidget {
     required this.conversationId,
     required this.selectChat,
     required this.selected,
+    required this.messageModel,
   });
-
+  final MessageModel messageModel;
   final String? conversationId;
   final void Function(String id) selectChat;
   final bool selected;
@@ -78,19 +80,19 @@ class _MessageCardState extends State<MessageCard> {
                 ),
               ),
               const SizedBox(width: 15),
-              const Expanded(
+              Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "+254792406400",
-                      style: TextStyle(
+                      widget.messageModel.sender,
+                      style: const TextStyle(
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Text(
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ut consectetur eros, eu congue enim.",
+                      widget.messageModel.message,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                       style: TextStyle(

@@ -15,4 +15,24 @@ class MessagingService{
       throw Exception(response.body);
     }
   }
+  Future<List<MessageModel>> fetchConversation()async{
+    final res=await http.get(Uri.parse('${UrlConfig.BASE_URL}/messaging/conversations'));
+    if(res.statusCode==200){
+      final List data=json.decode(res.body);
+      return data.map((e)=>MessageModel.fromJson(e)).toList();
+    }
+    else{
+      throw Exception(res.statusCode);
+    }
+  }
+  Future<List<MessageModel>> fetchConversationMessages(String uid)async{
+    final res=await http.get(Uri.parse('${UrlConfig.BASE_URL}/messaging/messages/${uid}'));
+    if(res.statusCode==200){
+      final List data=json.decode(res.body);
+      return data.map((e)=>MessageModel.fromJson(e)).toList();
+    }
+    else{
+      throw Exception(res.statusCode);
+    }
+  }
 }

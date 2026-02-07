@@ -15,7 +15,7 @@ void main() {
               MessagingRepositories(MessagingService())
             ),
             ),
-            ChangeNotifierProvider(create: (_)=>ConversationsPageModelView())
+            ChangeNotifierProvider(create: (_)=>ConversationsPageModelView(MessagingRepositories(MessagingService())))
           ],
           child: const MyApp()));
 }
