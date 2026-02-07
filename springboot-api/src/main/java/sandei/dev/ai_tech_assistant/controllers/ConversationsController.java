@@ -1,10 +1,7 @@
 package sandei.dev.ai_tech_assistant.controllers;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import sandei.dev.ai_tech_assistant.entities.messaging.MessagingEntity;
 import sandei.dev.ai_tech_assistant.services.messaging.MessagingService;
 
@@ -28,7 +25,7 @@ public class ConversationsController {
         return  ResponseEntity.ok().body(messagingService.fetchMessages());
     }
     @GetMapping("/messages/{sender}")
-    ResponseEntity<List<MessagingEntity>> fetchMessages(@RequestParam String sender){
+    ResponseEntity<List<MessagingEntity>> fetchMessages(@PathVariable String sender){
         return ResponseEntity.ok().body(messagingService.fetchConversationMessages(sender));
     }
 }
