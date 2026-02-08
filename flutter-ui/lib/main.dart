@@ -1,8 +1,10 @@
 import 'package:admin_panel/data/repositories/messaging_repositories.dart';
+import 'package:admin_panel/data/repositories/stats_repository.dart';
 import 'package:admin_panel/data/services/messageService.dart';
 import 'package:admin_panel/routing/router.dart';
 import 'package:admin_panel/ui/conversationsPage/view_models/conversations_page_model_view.dart';
 import 'package:admin_panel/ui/dashboard/view_models/table_view_model.dart';
+import 'package:admin_panel/ui/statsPage/view_models/pie_chart_model_view.dart';
 import 'package:admin_panel/utils/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +17,14 @@ void main() {
               MessagingRepositories(MessagingService())
             ),
             ),
-            ChangeNotifierProvider(create: (_)=>ConversationsPageModelView(MessagingRepositories(MessagingService())))
+            ChangeNotifierProvider(create: (_)=>ConversationsPageModelView(MessagingRepositories(MessagingService()))),
+            ChangeNotifierProvider(
+                create: (_)=>PieChartModelView(
+                    repository: StatsRepository(
+                        MessagingService()
+                    )
+                )
+            )
           ],
           child: const MyApp()));
 }

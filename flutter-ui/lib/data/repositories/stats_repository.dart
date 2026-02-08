@@ -1,5 +1,6 @@
 import 'package:admin_panel/data/models/messageModel.dart';
 import 'package:admin_panel/data/services/messageService.dart';
+import 'package:admin_panel/domain/models/categoriesModel.dart';
 import 'package:admin_panel/domain/models/requestGraphModel.dart';
 import 'package:admin_panel/domain/models/urgenceyModel.dart';
 
@@ -7,21 +8,31 @@ class StatsRepository {
   final MessagingService _messagingService;
 
   StatsRepository(this._messagingService);
-  Future<List<String>> fetchCategories()async{
-    List<String> categoriesList=[];
+  Future<List<CategoriesModel>> fetchCategories() async {
     final messages = await _messagingService.fetchMessages();
-    for (final message in messages){
-      if(message.tags!=null){
-        categoriesList.add(message.tags!);
+
+    final Map<String, int> freq = {};
+
+    for (final message in messages) {
+      final tag = message.tags;
+      if (tag != null && tag.isNotEmpty) {
+        freq[tag] = (freq[tag] ?? 0) + 1;
       }
     }
-    return categoriesList;
+
+    return freq.entries.map((entry) {
+      return CategoriesModel(
+        category: entry.key,
+        f: entry.value,
+      );
+    }).toList();
   }
+
   Future<double> classifyRequests()async{
-    List<String> categories=await fetchCategories();
+    List<CategoriesModel> categories=await fetchCategories();
     int human=0;
     for (final c in categories){
-      if(c.toLowerCase()=="Network & Connectivity".toLowerCase()){
+      if(c.category.toLowerCase()=="Network & Connectivity".toLowerCase()){
         human++;
       }
     }
@@ -103,5 +114,7 @@ class StatsRepository {
       );
     }).toList();
   }
-
+  Future<List<MessageModel>> fetchConversations()async{
+    return _messagingService.fetchConversation();
+  }
 }
