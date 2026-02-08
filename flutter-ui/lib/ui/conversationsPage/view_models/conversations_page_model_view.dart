@@ -24,6 +24,7 @@ class ConversationsPageModelView extends ChangeNotifier{
       print(error);
     } finally {
       isLoading = false;
+
       notifyListeners();
     }
   }

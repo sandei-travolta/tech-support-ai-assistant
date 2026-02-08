@@ -59,36 +59,49 @@ class ConversationsTab extends StatelessWidget {
               itemCount: vm.conversationMessages.length,
               reverse: true, // Start from bottom like chat apps
               itemBuilder: (context, index) {
-                final reversedIndex = vm.conversationMessages.length - 1 - index;
-                final message = vm.conversationMessages[reversedIndex];
-                final isMe = message.sender != id;
-                return Align(
-                  alignment:
-                  isMe ? Alignment.centerRight : Alignment.centerLeft,
-                  child: Container(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
-                    ),
-                    constraints: const BoxConstraints(maxWidth: 400),
-                    decoration: BoxDecoration(
-                      color: isMe ? Colors.black : Colors.white,
-                      borderRadius: BorderRadius.circular(16),
-                      border: isMe
-                          ? null
-                          : Border.all(color: Colors.grey.shade300),
-                    ),
-                    child: Text(
-                      isMe
-                          ? message.message
-                          : message.response!,
-                      style: TextStyle(
-                        color: isMe ? Colors.white : Colors.black,
-                        fontSize: 15,
+                final message = vm.conversationMessages[index];
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // USER MESSAGE
+                    if (message.message.isNotEmpty)
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Container(
+                          margin: const EdgeInsets.only(bottom: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          constraints: const BoxConstraints(maxWidth: 400),
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Text(
+                            message.message,
+                            style: const TextStyle(color: Colors.white, fontSize: 15),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
+
+                    // BOT / RESPONSE MESSAGE
+                    if (message.response != null && message.response!.isNotEmpty)
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          margin: const EdgeInsets.only(bottom: 12),
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          constraints: const BoxConstraints(maxWidth: 400),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(color: Colors.grey.shade300),
+                          ),
+                          child: Text(
+                            message.response!,
+                            style: const TextStyle(color: Colors.black, fontSize: 15),
+                          ),
+                        ),
+                      ),
+                  ],
                 );
               },
             ),
