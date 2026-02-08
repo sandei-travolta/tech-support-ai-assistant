@@ -1,21 +1,55 @@
+import 'package:admin_panel/ui/statsPage/view_models/urgencey_chart_model_view.dart';
+import 'package:admin_panel/domain/models/urgenceyModel.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class UrgencyGaugeChart extends StatelessWidget {
+class UrgencyGaugeChart extends StatefulWidget {
   const UrgencyGaugeChart({super.key});
 
-  final double low = 48;
-  final double mid = 27;
-  final double high = 18;
+  @override
+  State<UrgencyGaugeChart> createState() => _UrgencyGaugeChartState();
+}
+
+class _UrgencyGaugeChartState extends State<UrgencyGaugeChart> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<UrgenceyChartModelView>().fetchUrgencey();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final total = low + mid + high;
+    final vm = context.watch<UrgenceyChartModelView>();
+
+    if (vm.isLoading) {
+      return const SizedBox(
+        height: 200,
+        child: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    // ---- Extract values from VM ----
+    final double low = _value(vm, "low");
+    final double medium = _value(vm, "medium");
+    final double high =
+        _value(vm, "high") + _value(vm, "critical");
+
+    final double total = low + medium + high;
+
+    if (total == 0) {
+      return const SizedBox(
+        height: 200,
+        child: Center(child: Text("No data available")),
+      );
+    }
 
     return Column(
       children: [
         SizedBox(
-          height: 170,
+          height: 180,
           child: Stack(
             alignment: Alignment.bottomCenter,
             children: [
@@ -24,12 +58,16 @@ class UrgencyGaugeChart extends StatelessWidget {
                   startDegreeOffset: 180,
                   sectionsSpace: 2,
                   centerSpaceRadius: 60,
-                  sections: _sections(),
+                  sections: _buildSections(
+                    low: low,
+                    medium: medium,
+                    high: high,
+                  ),
                 ),
               ),
 
               Positioned(
-                bottom: 40,
+                bottom: 42,
                 child: Column(
                   children: [
                     Text(
@@ -55,16 +93,34 @@ class UrgencyGaugeChart extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            legendItem(Colors.green, "LOW", low.toInt()),
-            legendItem(Colors.blue, "MID", mid.toInt()),
-            legendItem(Colors.red, "HIGH", high.toInt()),
+            _legendItem(Colors.green, "LOW", low.toInt()),
+            _legendItem(Colors.blue, "MEDIUM", medium.toInt()),
+            _legendItem(Colors.red, "HIGH", high.toInt()),
           ],
-        )
+        ),
       ],
     );
   }
 
-  List<PieChartSectionData> _sections() {
+  // ---------------- Helpers ----------------
+
+  double _value(UrgenceyChartModelView vm, String key) {
+    return vm.urgenceyList
+        .firstWhere(
+          (e) => e.urgencey == key,
+      orElse: () => UrgenceyModel(urgencey: key, f: 0),
+    )
+        .f
+        .toDouble();
+  }
+
+  List<PieChartSectionData> _buildSections({
+    required double low,
+    required double medium,
+    required double high,
+  }) {
+    final visibleTotal = low + medium + high;
+
     return [
       PieChartSectionData(
         value: low,
@@ -73,7 +129,7 @@ class UrgencyGaugeChart extends StatelessWidget {
         showTitle: false,
       ),
       PieChartSectionData(
-        value: mid,
+        value: medium,
         color: Colors.blue,
         radius: 18,
         showTitle: false,
@@ -85,9 +141,9 @@ class UrgencyGaugeChart extends StatelessWidget {
         showTitle: false,
       ),
 
-      // Invisible half (forces 180° gauge)
+      // Invisible half to force gauge shape
       PieChartSectionData(
-        value: low + mid + high,
+        value: visibleTotal,
         color: Colors.transparent,
         radius: 18,
         showTitle: false,
@@ -95,7 +151,7 @@ class UrgencyGaugeChart extends StatelessWidget {
     ];
   }
 
-  Widget legendItem(Color color, String label, int value) {
+  Widget _legendItem(Color color, String label, int value) {
     return Row(
       children: [
         Container(

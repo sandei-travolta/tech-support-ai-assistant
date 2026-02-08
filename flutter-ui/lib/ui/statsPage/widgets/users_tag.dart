@@ -1,6 +1,8 @@
+import 'package:admin_panel/ui/statsPage/view_models/unique_users_model_view.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class UsersTag extends StatelessWidget {
+class UsersTag extends StatefulWidget {
 
 
   const UsersTag({
@@ -8,7 +10,20 @@ class UsersTag extends StatelessWidget {
   });
 
   @override
+  State<UsersTag> createState() => _UsersTagState();
+}
+
+class _UsersTagState extends State<UsersTag> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<UniqueUsersModelView>().fetchUsers();
+    });
+  }
+  @override
   Widget build(BuildContext context) {
+    final vm=context.watch<UniqueUsersModelView>();
     return Container(
       height: 150,
       width: 150,
@@ -25,7 +40,7 @@ class UsersTag extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '4',
+              vm.users.toString(),
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 32,

@@ -1,15 +1,29 @@
+import 'package:admin_panel/ui/conversationsPage/view_models/conversations_page_model_view.dart';
+import 'package:admin_panel/ui/statsPage/view_models/conversations_model_view.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class UsersTable extends StatelessWidget {
+class UsersTable extends StatefulWidget {
   const UsersTable({
     super.key,
   });
 
   @override
+  State<UsersTable> createState() => _UsersTableState();
+}
+
+class _UsersTableState extends State<UsersTable> {
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ConversationsModelView>().fetchConversations();
+    });
+  }
+  @override
   Widget build(BuildContext context) {
+    final vm=context.watch<ConversationsModelView>();
     return Container(
       height: MediaQuery.of(context).size.height*0.5,
-
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -77,12 +91,13 @@ class UsersTable extends StatelessWidget {
           // Table Rows
           Expanded(
             child: ListView.separated(
-              itemCount: 5,
+              itemCount: vm.conversations.length,
               separatorBuilder: (context, index) => Divider(
                 height: 1,
                 color: Colors.grey[200],
               ),
               itemBuilder: (context, index) {
+                final message=vm.conversations[index];
                 return Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 16,
@@ -122,7 +137,7 @@ class UsersTable extends StatelessWidget {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   Text(
-                                    "+254792406400",
+                                    message.message!,
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: Colors.grey[600],

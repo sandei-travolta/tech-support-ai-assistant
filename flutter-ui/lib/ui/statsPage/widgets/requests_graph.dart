@@ -1,12 +1,42 @@
+import 'package:admin_panel/ui/statsPage/view_models/requests_model_view.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../../domain/models/requestGraphModel.dart';
 
 
-class _BarChart extends StatelessWidget {
+class _BarChart extends StatefulWidget {
   const _BarChart();
 
   @override
+  State<_BarChart> createState() => _BarChartState();
+}
+
+class _BarChartState extends State<_BarChart> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<RequestsModelView>().fetchRequests();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final vm = context.watch<RequestsModelView>();
+    final data = vm.requests; // List<RequestGraphModel>
+
+    if (data.isEmpty) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    final maxY = data
+        .map((e) => e.requests)
+        .reduce((a, b) => a > b ? a : b)
+        .toDouble() +
+        2;
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -15,14 +45,14 @@ class _BarChart extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             blurRadius: 10,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
             color: Colors.black.withOpacity(.05),
           )
         ],
       ),
       child: BarChart(
         BarChartData(
-          maxY: 20,
+          maxY: maxY,
           alignment: BarChartAlignment.spaceBetween,
           barTouchData: barTouchData,
           titlesData: titlesData,
@@ -30,7 +60,7 @@ class _BarChart extends StatelessWidget {
           gridData: FlGridData(
             show: true,
             drawVerticalLine: false,
-            horizontalInterval: 5,
+            horizontalInterval: maxY / 4,
             getDrawingHorizontalLine: (value) {
               return FlLine(
                 strokeWidth: 1,
@@ -38,7 +68,7 @@ class _BarChart extends StatelessWidget {
               );
             },
           ),
-          barGroups: barGroups,
+          barGroups: _buildBarGroups(data),
         ),
         swapAnimationDuration: const Duration(milliseconds: 600),
       ),
@@ -46,6 +76,23 @@ class _BarChart extends StatelessWidget {
   }
 
   BarTouchData get barTouchData => BarTouchData(enabled: false);
+
+  List<BarChartGroupData> _buildBarGroups(
+      List<RequestGraphModel> data) {
+    return List.generate(data.length, (i) {
+      return BarChartGroupData(
+        x: i,
+        barRods: [
+          BarChartRodData(
+            toY: data[i].requests.toDouble(),
+            width: 18,
+            borderRadius: BorderRadius.circular(8),
+            gradient: _barsGradient,
+          ),
+        ],
+      );
+    });
+  }
 
   Widget getTitles(double value, TitleMeta meta) {
     final style = TextStyle(
@@ -81,8 +128,10 @@ class _BarChart extends StatelessWidget {
         reservedSize: 28,
       ),
     ),
-    rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-    topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+    rightTitles:
+    const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+    topTitles:
+    const AxisTitles(sideTitles: SideTitles(showTitles: false)),
   );
 
   LinearGradient get _barsGradient => const LinearGradient(
@@ -92,21 +141,6 @@ class _BarChart extends StatelessWidget {
       Color(0xff4facfe),
       Color(0xff00f2fe),
     ],
-  );
-
-  List<BarChartGroupData> get barGroups => List.generate(
-    7,
-        (i) => BarChartGroupData(
-      x: i,
-      barRods: [
-        BarChartRodData(
-          toY: [8, 10, 14, 15, 13, 10, 16][i].toDouble(),
-          width: 18,
-          borderRadius: BorderRadius.circular(8),
-          gradient: _barsGradient,
-        ),
-      ],
-    ),
   );
 }
 

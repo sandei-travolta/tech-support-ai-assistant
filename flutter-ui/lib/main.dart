@@ -5,9 +5,15 @@ import 'package:admin_panel/routing/router.dart';
 import 'package:admin_panel/ui/conversationsPage/view_models/conversations_page_model_view.dart';
 import 'package:admin_panel/ui/dashboard/view_models/table_view_model.dart';
 import 'package:admin_panel/ui/statsPage/view_models/pie_chart_model_view.dart';
+import 'package:admin_panel/ui/statsPage/view_models/requests_model_view.dart';
+import 'package:admin_panel/ui/statsPage/view_models/tasks_model_view.dart';
+import 'package:admin_panel/ui/statsPage/view_models/unique_users_model_view.dart';
+import 'package:admin_panel/ui/statsPage/view_models/urgencey_chart_model_view.dart';
 import 'package:admin_panel/utils/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'ui/statsPage/view_models/conversations_model_view.dart';
 
 void main() {
   runApp(
@@ -24,7 +30,37 @@ void main() {
                         MessagingService()
                     )
                 )
-            )
+            ),
+            ChangeNotifierProvider(
+                create: (_)=>TasksModelView(
+                  repository: StatsRepository(
+                      MessagingService()
+                  )
+                )
+            ),
+            ChangeNotifierProvider(
+                create: (_)=>UniqueUsersModelView(
+                    repository: StatsRepository(
+                        MessagingService()
+                    )
+                )
+            ),
+            ChangeNotifierProvider(
+                create: (_)=>RequestsModelView(
+                    repository: StatsRepository(
+                        MessagingService()
+                    )
+                )
+            ),
+            ChangeNotifierProvider(
+                create: (_)=>UrgenceyChartModelView(
+                    repository: StatsRepository(
+                        MessagingService()
+                    )
+                )
+            ),
+            ChangeNotifierProvider(
+                create: (_)=>ConversationsModelView(repository: StatsRepository(MessagingService())))
           ],
           child: const MyApp()));
 }

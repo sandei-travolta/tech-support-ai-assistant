@@ -1,10 +1,26 @@
+import 'package:admin_panel/ui/statsPage/view_models/tasks_model_view.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class TasksCard extends StatelessWidget {
+class TasksCard extends StatefulWidget {
   const TasksCard({super.key});
 
   @override
+  State<TasksCard> createState() => _TasksCardState();
+}
+
+class _TasksCardState extends State<TasksCard> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<TasksModelView>().fetchHumanRation();
+    });
+  }
+  @override
   Widget build(BuildContext context) {
+    final vm=context.watch<TasksModelView>();
+    final human=vm.humanRatio*100;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 55.0),
       child: Container(
@@ -21,7 +37,7 @@ class TasksCard extends StatelessWidget {
                   padding: .all(12.0),
                   child: Row(
                     children: [
-                      Text("80%",style: TextStyle(
+                      Text(human.toString(),style: TextStyle(
                         fontSize: 35.0,
                         color: Colors.white,
                         fontWeight: .w700
@@ -61,14 +77,14 @@ class TasksCard extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    Text("20%",style: TextStyle(
+                    Text((100-human).toString(),style: TextStyle(
                         fontSize: 35.0,
                         color: Colors.black54,
                         fontWeight: .w700
                     ),),
                     const SizedBox(width: 15.0),
                     Text("Requests Do not Require\nHuman Intervation",style: TextStyle(
-                      fontSize: 15.0,
+                      fontSize: 12.0,
                       color: Colors.black,
                     ),)
                   ],

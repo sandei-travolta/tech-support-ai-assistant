@@ -19,6 +19,7 @@ class ConversationsPageModelView extends ChangeNotifier{
 
     try {
       messages = await _repositories.fetchConversations();
+      notifyListeners();
     } catch (e) {
       error = e.toString();
       print(error);
