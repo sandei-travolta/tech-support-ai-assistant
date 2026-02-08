@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../data/models/messageModel.dart';
-import '../../../data/repositories/MessagingRepositories.dart';
+import '../../../data/repositories/messaging_repositories.dart';
 
 class ConversationsPageModelView extends ChangeNotifier{
   final MessagingRepositories _repositories;

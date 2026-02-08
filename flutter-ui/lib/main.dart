@@ -1,4 +1,4 @@
-import 'package:admin_panel/data/repositories/MessagingRepositories.dart';
+import 'package:admin_panel/data/repositories/messaging_repositories.dart';
 import 'package:admin_panel/data/services/messageService.dart';
 import 'package:admin_panel/routing/router.dart';
 import 'package:admin_panel/ui/conversationsPage/view_models/conversations_page_model_view.dart';

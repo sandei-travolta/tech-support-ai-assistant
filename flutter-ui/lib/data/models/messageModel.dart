@@ -7,6 +7,7 @@ class MessageModel {
   String? response;
   String sender;
   String? tags;
+  String? urgencey;
   DateTime timestamp;
 
   MessageModel({
@@ -17,6 +18,7 @@ class MessageModel {
     required this.sender,
     this.tags,
     required this.timestamp,
+    this.urgencey
   });
 
   factory MessageModel.fromJson(Map<String,dynamic> json){
@@ -28,6 +30,8 @@ class MessageModel {
         sender: json['sender'],
         tags: json['tags'],
       timestamp: DateTime.parse(json["timestamp"]),
+        urgencey: json['urgency']
+
     );
   }
 }

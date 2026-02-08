@@ -1,0 +1,107 @@
+import 'package:admin_panel/data/models/messageModel.dart';
+import 'package:admin_panel/data/services/messageService.dart';
+import 'package:admin_panel/domain/models/requestGraphModel.dart';
+import 'package:admin_panel/domain/models/urgenceyModel.dart';
+
+class StatsRepository {
+  final MessagingService _messagingService;
+
+  StatsRepository(this._messagingService);
+  Future<List<String>> fetchCategories()async{
+    List<String> categoriesList=[];
+    final messages = await _messagingService.fetchMessages();
+    for (final message in messages){
+      if(message.tags!=null){
+        categoriesList.add(message.tags!);
+      }
+    }
+    return categoriesList;
+  }
+  Future<double> classifyRequests()async{
+    List<String> categories=await fetchCategories();
+    int human=0;
+    for (final c in categories){
+      if(c.toLowerCase()=="Network & Connectivity".toLowerCase()){
+        human++;
+      }
+    }
+    List<MessageModel> totalMessages=await _messagingService.fetchMessages();
+    return human/totalMessages.length;
+  }
+  Future<int> fetchUniqueUsers()async{
+    return _messagingService.fetchConversation().asStream().length;
+  }
+  Future<List<MessageModel>> fetchAllMessages()async{
+    return _messagingService.fetchMessages();
+  }
+  Future<List<RequestGraphModel>> requestGraphModel() async {
+    final List<MessageModel> messages = await fetchAllMessages();
+
+    final DateTime today = DateTime.now();
+    final DateTime startDate = today.subtract(const Duration(days: 6));
+
+    // Prepare a map: day -> count
+    final Map<DateTime, int> dailyCounts = {};
+
+    // Initialize all 7 days with 0
+    for (int i = 0; i < 7; i++) {
+      final day = DateTime(
+        startDate.year,
+        startDate.month,
+        startDate.day + i,
+      );
+      dailyCounts[day] = 0;
+    }
+
+    // Count messages per day
+    for (final msg in messages) {
+      final d = DateTime(
+        msg.timestamp.year,
+        msg.timestamp.month,
+        msg.timestamp.day,
+      );
+
+      if (dailyCounts.containsKey(d)) {
+        dailyCounts[d] = dailyCounts[d]! + 1;
+      }
+    }
+
+    // Build graph models
+    final List<RequestGraphModel> models = dailyCounts.entries.map((entry) {
+      return RequestGraphModel(
+        day: entry.key.day,
+        requests: entry.value,
+      );
+    }).toList();
+
+    return models;
+  }
+  Future<List<UrgenceyModel>> fetchUrgencey() async {
+    final List<MessageModel> messages = await fetchAllMessages();
+
+    // frequency map
+    final Map<String, int> freq = {
+      "low": 0,
+      "medium": 0,
+      "high": 0,
+      "critical": 0,
+    };
+
+    // count occurrences
+    for (final m in messages) {
+      final urgency = m.urgencey?.toLowerCase();
+      if (urgency != null && freq.containsKey(urgency)) {
+        freq[urgency] = freq[urgency]! + 1;
+      }
+    }
+
+    // build models
+    return freq.entries.map((entry) {
+      return UrgenceyModel(
+        urgencey: entry.key,
+        f: entry.value,
+      );
+    }).toList();
+  }
+
+}

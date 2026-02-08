@@ -1,6 +1,6 @@
 import 'package:admin_panel/data/models/messageModel.dart';
 import 'package:flutter/material.dart';
-import '../../../data/repositories/MessagingRepositories.dart';
+import '../../../data/repositories/messaging_repositories.dart';
 
 class TableViewModel extends ChangeNotifier {
   final MessagingRepositories _repositories;

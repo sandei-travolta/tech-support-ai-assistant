@@ -1,4 +1,4 @@
-import 'package:admin_panel/ui/statsPage/widgets/Categories_pie_chart.dart';
+import 'package:admin_panel/ui/statsPage/widgets/categories_pie_chart.dart';
 import 'package:admin_panel/ui/statsPage/widgets/requests_graph.dart';
 import 'package:admin_panel/ui/statsPage/widgets/tasks_card.dart';
 import 'package:admin_panel/ui/statsPage/widgets/urgency_gauge_chart.dart';
