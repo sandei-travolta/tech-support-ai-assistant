@@ -21,9 +21,10 @@ public class TwiloWebHook {
             @RequestParam("From") String from,
             @RequestParam("Body") String body) throws Exception {
 
-        return ResponseEntity.ok()
-                .header("Content-Type", "application/xml")
-                .body(twiloService.receiveMessage(from,body));
+        twiloService.processMessageAsync(from, body);
+
+        // Return empty 200 OK immediately
+        return ResponseEntity.ok().build();
     }
     private static final Logger log = LoggerFactory.getLogger(TwiloWebHook.class);
 
