@@ -1,4 +1,3 @@
-import 'package:admin_panel/ui/conversationsPage/view_models/conversations_page_model_view.dart';
 import 'package:admin_panel/ui/statsPage/view_models/conversations_model_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +12,7 @@ class UsersTable extends StatefulWidget {
 }
 
 class _UsersTableState extends State<UsersTable> {
+  @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {

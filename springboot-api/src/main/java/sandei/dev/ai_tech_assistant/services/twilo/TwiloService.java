@@ -25,7 +25,7 @@ public class TwiloService {
     @Async
     public void processMessageAsync(String from, String body) {
         try {
-
+            System.out.println("Started");
             // Make inference
             ResponseDto response = inferenceService.makeInference(new MessageDto(body, from));
 
