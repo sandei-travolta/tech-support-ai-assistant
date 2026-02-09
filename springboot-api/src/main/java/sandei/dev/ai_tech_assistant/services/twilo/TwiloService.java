@@ -47,7 +47,7 @@ public class TwiloService {
         try {
             Message.creator(
                     new com.twilio.type.PhoneNumber(to),
-                    new com.twilio.type.PhoneNumber("+14155238886"), // Your Twilio number
+                    new com.twilio.type.PhoneNumber("whatsapp:+14155238886"), // Your Twilio number
                     messageBody
             ).create();
 
