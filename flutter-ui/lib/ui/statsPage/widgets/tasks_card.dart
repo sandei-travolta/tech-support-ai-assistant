@@ -15,6 +15,7 @@ class _TasksCardState extends State<TasksCard> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<TasksModelView>().fetchHumanRation();
+      context.read<TasksModelView>().fetchTotalMessages();
     });
   }
   @override
@@ -37,7 +38,7 @@ class _TasksCardState extends State<TasksCard> {
                   padding: .all(12.0),
                   child: Row(
                     children: [
-                      Text(human.toString(),style: TextStyle(
+                      Text("${human.toInt().toString()}%",style: TextStyle(
                         fontSize: 35.0,
                         color: Colors.white,
                         fontWeight: .w700
@@ -62,7 +63,7 @@ class _TasksCardState extends State<TasksCard> {
                     shape: .circle
                   ),
                   child: Center(
-                    child: Text("12",style: Theme.of(context).textTheme.labelLarge),
+                    child: Text(vm.totalRequests.toString(),style: Theme.of(context).textTheme.labelLarge),
                   ),
                 ))
               ],
@@ -77,7 +78,7 @@ class _TasksCardState extends State<TasksCard> {
                 ),
                 child: Row(
                   children: [
-                    Text((100-human).toString(),style: TextStyle(
+                    Text("${(100-human).toInt().toString()}%",style: TextStyle(
                         fontSize: 35.0,
                         color: Colors.black54,
                         fontWeight: .w700

@@ -40,7 +40,12 @@ class StatsRepository {
     return human/totalMessages.length;
   }
   Future<int> fetchUniqueUsers()async{
-    return _messagingService.fetchConversation().asStream().length;
+    List<MessageModel> c=await _messagingService.fetchConversation();
+    return  c.length;
+  }
+  Future<int> fetchTotalRequests()async{
+    List<MessageModel> c=await _messagingService.fetchMessages();
+    return c.length;
   }
   Future<List<MessageModel>> fetchAllMessages()async{
     return _messagingService.fetchMessages();
@@ -90,7 +95,7 @@ class StatsRepository {
   Future<List<UrgenceyModel>> fetchUrgencey() async {
     final List<MessageModel> messages = await fetchAllMessages();
 
-    // frequency map
+
     final Map<String, int> freq = {
       "low": 0,
       "medium": 0,
@@ -98,7 +103,7 @@ class StatsRepository {
       "critical": 0,
     };
 
-    // count occurrences
+
     for (final m in messages) {
       final urgency = m.urgencey?.toLowerCase();
       if (urgency != null && freq.containsKey(urgency)) {
@@ -106,7 +111,6 @@ class StatsRepository {
       }
     }
 
-    // build models
     return freq.entries.map((entry) {
       return UrgenceyModel(
         urgencey: entry.key,

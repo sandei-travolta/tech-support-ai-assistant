@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class TasksModelView extends ChangeNotifier{
   double humanRatio=0.0;
   final StatsRepository _repository;
+  int totalRequests=0;
   bool isLoading=false;
 
   TasksModelView({required StatsRepository repository}) : _repository = repository;
@@ -18,6 +19,14 @@ class TasksModelView extends ChangeNotifier{
     }finally{
       isLoading=false;
       notifyListeners();
+    }
+  }
+  Future<void> fetchTotalMessages()async{
+    try{
+      totalRequests=await _repository.fetchTotalRequests();
+      notifyListeners();
+    }catch(e){
+      print(e.toString());
     }
   }
 }

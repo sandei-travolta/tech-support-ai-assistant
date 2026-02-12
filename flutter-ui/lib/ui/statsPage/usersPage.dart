@@ -24,15 +24,6 @@ class UsersPage extends StatelessWidget {
                       flex: 1,
                       child: Row(
                         children: [
-                          Expanded(child: Container(
-                            child: Column(
-                              crossAxisAlignment: .start,
-                              children: [
-                                Text("Query Categories",style: Theme.of(context).textTheme.labelLarge),
-                                CategoriesPieChart(),
-                              ],
-                            ),
-                          )),
                           const SizedBox(width: 5),
                           Expanded(child: TasksCard())
                         ],
@@ -74,7 +65,13 @@ class UsersPage extends StatelessWidget {
                   children: [
                     UsersTag(),
                     const SizedBox(height: 25.0),
-                    UsersTable()
+                    Column(
+                      crossAxisAlignment: .start,
+                      children: [
+                        Text("Query Categories",style: Theme.of(context).textTheme.labelLarge),
+                        CategoriesPieChart(),
+                      ],
+                    ),
                   ],
                 ),
               )
