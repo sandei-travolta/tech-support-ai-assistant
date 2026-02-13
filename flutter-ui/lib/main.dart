@@ -3,6 +3,7 @@ import 'package:admin_panel/data/repositories/stats_repository.dart';
 import 'package:admin_panel/data/services/messageService.dart';
 import 'package:admin_panel/routing/router.dart';
 import 'package:admin_panel/ui/conversationsPage/view_models/conversations_page_model_view.dart';
+import 'package:admin_panel/ui/dashboard/view_models/cards_view_model.dart';
 import 'package:admin_panel/ui/dashboard/view_models/table_view_model.dart';
 import 'package:admin_panel/ui/statsPage/view_models/pie_chart_model_view.dart';
 import 'package:admin_panel/ui/statsPage/view_models/requests_model_view.dart';
@@ -60,7 +61,19 @@ void main() {
                 )
             ),
             ChangeNotifierProvider(
-                create: (_)=>ConversationsModelView(repository: StatsRepository(MessagingService())))
+                create: (_)=>ConversationsModelView(
+                    repository: StatsRepository(
+                        MessagingService()
+                    )
+                )
+            ),
+            ChangeNotifierProvider(
+                create: (_)=>CardsViewModel(
+                    repository: StatsRepository(
+                      MessagingService()
+                    )
+                )
+            )
           ],
           child: const MyApp()));
 }

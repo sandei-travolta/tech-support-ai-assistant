@@ -1,17 +1,33 @@
+import 'package:admin_panel/ui/dashboard/view_models/cards_view_model.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 
 import '../../utils/colors.dart';
 import 'widgets/btnCards.dart';
 import 'widgets/paginationCounter.dart';
 import 'widgets/tableSection.dart';
-import 'widgets/tagWidget.dart';
 import 'widgets/tittleSection.dart';
 
-class DashBoardPage extends StatelessWidget {
+class DashBoardPage extends StatefulWidget {
   const DashBoardPage({super.key});
 
   @override
+  State<DashBoardPage> createState() => _DashBoardPageState();
+}
+
+class _DashBoardPageState extends State<DashBoardPage> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      context.read<CardsViewModel>().fetchUniqueUsers();
+      context.read<CardsViewModel>().fetchRequest();
+      context.read<CardsViewModel>().fetchConversationCount();
+    });
+  }
+  @override
   Widget build(BuildContext context) {
+    final c=context.watch<CardsViewModel>();
     return Container(
       width: .maxFinite,
       padding: .only(top:50.0),
@@ -30,18 +46,23 @@ class DashBoardPage extends StatelessWidget {
             mainAxisAlignment: .spaceAround,
             children: [
               BtnCard(
-                text: 'Issues',
+                text: 'Users',
                 color: AppColors.cardBackground.withOpacity(0.6),
-                description: 'Check Reoccurring Raised issues',
+                description: 'Unique Users',
+                data: c.uniqueUsers,
               ),
               BtnCard(
                 text: "Request",
                 color: AppColors.cardBackground2.withOpacity(0.9),
-                description: 'Total Requests'),
+                description: 'Total Requests',
+                data: c.totalRequests,
+              ),
               BtnCard(
                 text: "Conversations",
                 color: AppColors.cardBackground3.withOpacity(0.9),
-                description: 'Total Conversations',),
+                description: 'Total Conversations',
+                data: c.conversations,
+              )
             ],
           ),
           TittleSection(),

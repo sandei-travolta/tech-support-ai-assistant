@@ -1,13 +1,16 @@
+import 'package:admin_panel/ui/dashboard/view_models/cards_view_model.dart';
 import 'package:admin_panel/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BtnCard extends StatelessWidget {
   const BtnCard({
-    super.key, required this.text,required this.color, required this.description
+    super.key, required this.text,required this.color, required this.description, required this.data
   });
   final String text;
   final Color color;
   final String description;
+  final int data;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -44,7 +47,7 @@ class BtnCard extends StatelessWidget {
                 child: RichText(
 
                     text: TextSpan(
-                      text: '4',
+                      text: data.toString(),
                       style: TextStyle(
                         fontSize: 45.0,
                         fontWeight: .w800,

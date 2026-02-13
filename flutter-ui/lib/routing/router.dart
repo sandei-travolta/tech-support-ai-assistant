@@ -35,7 +35,8 @@ GoRouter route()=>GoRouter(
                   GoRoute(
                       path: Routes.conversations,
                       builder: (context,state){
-                        return ConversationsPage();
+                        final id = state.extra as String?;
+                        return ConversationsPage(id);
                       }),
                   GoRoute(
                       path: Routes.users,

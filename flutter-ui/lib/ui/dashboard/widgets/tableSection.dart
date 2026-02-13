@@ -2,7 +2,10 @@ import 'package:admin_panel/ui/dashboard/view_models/table_view_model.dart';
 import 'package:admin_panel/utils/format_time.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+
+import '../../../routing/routes.dart';
 class TableSection extends StatefulWidget {
   const TableSection({super.key});
 
@@ -13,7 +16,6 @@ class TableSection extends StatefulWidget {
 class _TableSectionState extends State<TableSection> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<TableViewModel>().loadMessages();
@@ -145,10 +147,18 @@ class _TableSectionState extends State<TableSection> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8),
-                      child: SvgPicture.asset(
-                          height: 35,
-                          width: 35,
-                          "resources/svgs/open.svg"),
+                      child: IconButton(
+                        onPressed: ()=>{
+                          context.go(
+                            Routes.conversations,
+                            extra: vm.visibleMessages[i].sender,   // pass your conversationId here
+                          )
+                        },
+                        icon: SvgPicture.asset(
+                            height: 35,
+                            width: 35,
+                            "resources/svgs/open.svg"),
+                      ),
                     ),
                   ],
                 ),

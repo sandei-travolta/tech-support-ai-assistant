@@ -5,9 +5,23 @@ import 'package:provider/provider.dart';
 
 import 'widgets/chat_section.dart';
 
-class ConversationsPage extends StatelessWidget {
-  const ConversationsPage({super.key});
+class ConversationsPage extends StatefulWidget {
+  const ConversationsPage(this.con, {super.key});
+  final String? con;
 
+  @override
+  State<ConversationsPage> createState() => _ConversationsPageState();
+}
+
+class _ConversationsPageState extends State<ConversationsPage> {
+  @override
+  void initState() {
+
+    super.initState();
+    if(widget.con!=null){
+      context.read<ConversationsPageModelView>().openChat(widget.con!);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final vm = context.watch<ConversationsPageModelView>();
